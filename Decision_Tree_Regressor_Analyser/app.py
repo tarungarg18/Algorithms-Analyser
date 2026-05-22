@@ -3,7 +3,7 @@ import streamlit as st
 import numpy as np
 from sklearn.tree import DecisionTreeRegressor
 from sklearn.metrics import r2_score
-from sklearn.tree import export_graphviz
+from sklearn import tree
 
 n_train = 150
 n_test = 100
@@ -36,7 +36,7 @@ st.sidebar.markdown("# Decision Tree Regressor")
 
 criterion = st.sidebar.selectbox(
     'Criterion',
-    ('squared_error','friedman_mse', 'absolute_error', )
+    ('squared_error', 'absolute_error')
 )
 
 splitter = st.sidebar.selectbox(
@@ -83,6 +83,6 @@ if st.sidebar.button('Run Algorithm'):
     orig = st.pyplot(fig)
 
 
-    tree = export_graphviz(reg,feature_names=["Col1"])
+    dot_data = tree.export_graphviz(reg, feature_names=["Col1"])
 
-    st.graphviz_chart(tree)
+    st.graphviz_chart(dot_data)

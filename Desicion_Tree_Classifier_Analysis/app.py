@@ -5,10 +5,6 @@ from sklearn.model_selection import train_test_split
 from sklearn.datasets import make_moons
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.metrics import accuracy_score
-from sklearn.tree import plot_tree
-from sklearn.tree import export_graphviz
-from os import system
-from graphviz import Source
 from sklearn import tree
 
 def draw_meshgrid():
@@ -80,6 +76,6 @@ if st.sidebar.button('Run Algorithm'):
     orig = st.pyplot(fig)
     st.subheader("Accuracy for Decision Tree  " + str(round(accuracy_score(y_test, y_pred), 2)))
 
-    tree = export_graphviz(clf,feature_names=["Col1","Col2"])
+    dot_data = tree.export_graphviz(clf, feature_names=["Col1", "Col2"])
 
-    st.graphviz_chart(tree)
+    st.graphviz_chart(dot_data)

@@ -38,7 +38,7 @@ dataset = st.sidebar.selectbox(
 
 penalty = st.sidebar.selectbox(
     'Regularization',
-    ('l2', 'l1','elasticnet','none')
+    ('l2', 'l1', 'elasticnet', None)
 )
 
 c_input = float(st.sidebar.number_input('C',value=1.0))
@@ -50,12 +50,7 @@ solver = st.sidebar.selectbox(
 
 max_iter = int(st.sidebar.number_input('Max Iterations',value=100))
 
-multi_class = st.sidebar.selectbox(
-    'Multi Class',
-    ('auto', 'ovr', 'multinomial')
-)
-
-l1_ratio = int(st.sidebar.number_input('l1 Ratio'))
+l1_ratio = float(st.sidebar.number_input('l1 Ratio (only for elasticnet)', min_value=0.0, max_value=1.0, value=0.0))
 
 # Load initial graph
 fig, ax = plt.subplots()
@@ -68,7 +63,8 @@ orig = st.pyplot(fig)
 if st.sidebar.button('Run Algorithm'):
     orig.empty()
 
-    clf = LogisticRegression(penalty=penalty,C=c_input,solver=solver,max_iter=max_iter,multi_class=multi_class,l1_ratio=l1_ratio)
+    l1 = l1_ratio if penalty == 'elasticnet' else None
+    clf = LogisticRegression(penalty=penalty, C=c_input, solver=solver, max_iter=max_iter, l1_ratio=l1)
     clf.fit(X_train,y_train)
 
     y_pred = clf.predict(X_test)
